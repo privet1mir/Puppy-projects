@@ -24,3 +24,61 @@ The metric for this competition is the Mean F1-Score. The F1-measure is calculat
 
 $$F_1 = 2 \frac{P \cdot R}{P + R}, \text{ where } P = \frac{TP}{TP + FP} \text{ and } R = \frac{TP}{TP + FN}$$
 
+## Baseline Solution 
+
+After preprocessing the input dataset (which includes pictures -> tensors stage and input normalizatio, in a common way, with mean and std form ImageNet) I implement the simple CNN architecture, which I will be used for baseline solution.  
+
+I used CNN with the following structure: 
+
+<img src='https://github.com/privet1mir/Puppy-projects/blob/main/Simpsons%20Classification/images/nn_baseline.svg' width=3000>
+
+Clearly, the structure is : 
+
+```
+SimpleCnn(
+  (conv1): Sequential(
+    (0): Conv2d(3, 8, kernel_size=(3, 3), stride=(1, 1))
+    (1): ReLU()
+    (2): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  )
+  (conv2): Sequential(
+    (0): Conv2d(8, 16, kernel_size=(3, 3), stride=(1, 1))
+    (1): ReLU()
+    (2): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  )
+  (conv3): Sequential(
+    (0): Conv2d(16, 32, kernel_size=(3, 3), stride=(1, 1))
+    (1): ReLU()
+    (2): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  )
+  (conv4): Sequential(
+    (0): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1))
+    (1): ReLU()
+    (2): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  )
+  (conv5): Sequential(
+    (0): Conv2d(64, 96, kernel_size=(3, 3), stride=(1, 1))
+    (1): ReLU()
+    (2): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  )
+  (out): Linear(in_features=2400, out_features=42, bias=True)
+)
+```
+
+We have 5 convolution layers and predict 42 classes (number of characters in Simpson's dataset). Also I used: 
+
+| Optimizer | Loss |
+| ------- | --- |
+| Adam | CrossEntropyLoss | 
+
+The learning curve looks like this: 
+
+<img src='https://github.com/privet1mir/Puppy-projects/blob/main/Simpsons%20Classification/images/loss_plot_baseline_cnn.png' width=1000>
+
+We can see that about 3 epochs is enough for this cnn architecture to reach maximum accuracy on validation data. 
+
+After sending the baseline predictions to kaggle we can see the final score. 
+
+| Model | Public Score on Kaggle |
+| ------- | --- |
+| Simple CNN | 0.90648 | 
