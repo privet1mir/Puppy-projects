@@ -7,3 +7,4 @@ Hi darling! In this repository you can find my projects from different fields of
 Project that I've done: 
 
 * Anime Faces generator. Generative adversarial networks
+* The Simpsons Characters classifier. Kaggle competition.
